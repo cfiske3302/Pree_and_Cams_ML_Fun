@@ -66,8 +66,8 @@ class PPGVideoDataset(torch.utils.data.Dataset):
 
           # frame[int(cropped[0][0][1]):int(cropped[0][0][3]), int(cropped[0][0][0]):int(cropped[0][0][2]), :: ]
 
-          x = int((cropped[0][0][0]+cropped[0][0][2])*5/2)
-          y = int((cropped[0][0][1]+cropped[0][0][2])*5/2)
+          x = int((face[0][0][0]+face[0][0][2])*5/2)
+          y = int((face[0][0][1]+face[0][0][2])*5/2)
           
           element = {"path": final_path, 'center': {'x':x, 'y':y}}
           print(element)
