@@ -101,7 +101,7 @@ class PhysNet_padding_Encoder_Decoder_MAX(nn.Module):
         [batch,channel,length,width,height] = x.shape
           
         x = self.ConvBlock1(x)		     # x [3, T, 128,128]
-        x = self.MaxpoolSpa(x)       # x [16, T, 64,64]
+        # x = self.MaxpoolSpa(x)       # x [16, T, 64,64]
         
         x = self.ConvBlock2(x)		    # x [32, T, 64,64]
         x_visual6464 = self.ConvBlock3(x)	    	# x [32, T, 64,64]
