@@ -1,3 +1,4 @@
+from __future__ import print_function, division
 '''
 Code of 'Remote Photoplethysmograph Signal Measurement from Facial Videos Using Spatio-Temporal Networks' 
 By Zitong Yu, 2019/05/05
@@ -28,8 +29,8 @@ Copyright (c) 2019
 ########################################
 
 
-from __future__ import print_function, division
 import torch
+import torch.nn as nn
 import matplotlib.pyplot as plt
 import argparse,os
 import pandas as pd
