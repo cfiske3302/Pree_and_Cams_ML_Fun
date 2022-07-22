@@ -96,36 +96,4 @@ class PhysNet_padding_Encoder_Decoder_MAX(nn.Module):
         self.poolspa = nn.AdaptiveAvgPool3d((frames,1,1))
 
         
-    def forward(self, x):	    	# x [3, T, 128,128]
-        x_visual = x
-        [batch,channel,length,width,height] = x.shape
-          
-        x = self.ConvBlock1(x)		     # x [3, T, 128,128]
-        # x = self.MaxpoolSpa(x)       # x [16, T, 64,64]
-        
-        x = self.ConvBlock2(x)		    # x [32, T, 64,64]
-        x_visual6464 = self.ConvBlock3(x)	    	# x [32, T, 64,64]
-        x = self.MaxpoolSpaTem(x_visual6464)      # x [32, T/2, 32,32]    Temporal halve
-        
-        x = self.ConvBlock4(x)		    # x [64, T/2, 32,32]
-        x_visual3232 = self.ConvBlock5(x)	    	# x [64, T/2, 32,32]
-        x = self.MaxpoolSpaTem(x_visual3232)      # x [64, T/4, 16,16]
-        
-
-        x = self.ConvBlock6(x)		    # x [64, T/4, 16,16]
-        x_visual1616 = self.ConvBlock7(x)	    	# x [64, T/4, 16,16]
-        x = self.MaxpoolSpa(x_visual1616)      # x [64, T/4, 8,8]
-
-        x = self.ConvBlock8(x)		    # x [64, T/4, 8, 8]
-        x = self.ConvBlock9(x)		    # x [64, T/4, 8, 8]
-        x = self.upsample(x)		    # x [64, T/2, 8, 8]
-        x = self.upsample2(x)		    # x [64, T, 8, 8]
-        
-        
-        x = self.poolspa(x)     # x [64, T, 1,1]    -->  groundtruth left and right - 7 
-        x = self.ConvBlock10(x)    # x [1, T, 1,1]
-        
-        rPPG = x.view(-1,length)            
-        
-
-        return rPPG, x_visual, x_visual3232, x_visual1616
+    print(f"1: {x.shape}")
