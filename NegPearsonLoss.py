@@ -46,20 +46,25 @@ class Neg_Pearson(nn.Module):    # Pearson range [-1, 1] so if < 0, abs|loss| ; 
     def forward(self, preds, labels):       # tensor [Batch, Temporal]
         loss = 0
         for i in range(preds.shape[0]):
-            print(f"preds.shape: {preds.shape}")
+            # print(f"preds.shape: {preds.shape}")
+            # print(f"labels.shape: {labels.shape}")
+
             sum_x = torch.sum(preds[i])                # x
-
-
             sum_y = torch.sum(labels[i])               # y
             sum_xy = torch.sum(preds[i]*labels[i])        # xy
+
             sum_x2 = torch.sum(torch.pow(preds[i],2))  # x^2
             sum_y2 = torch.sum(torch.pow(labels[i],2)) # y^2
+
             N = preds.shape[1]
 
-            print(f"term 1: {(N*sum_y2 - torch.pow(sum_y,2))}")
-            print(f"term 2: {(torch.sqrt((N*sum_x2 - torch.pow(sum_x,2))))}")
+            # print(f"term 1: {(N*sum_y2 - torch.pow(sum_y,2))}")
+            # print(f"term 2: {(torch.sqrt((N*sum_x2 - torch.pow(sum_x,2))))}")
 
-            pearson = (N*sum_xy - sum_x*sum_y)/(torch.sqrt((N*sum_x2 - torch.pow(sum_x,2))*(N*sum_y2 - torch.pow(sum_y,2))))
+            if (N*sum_x2 - torch.pow(sum_x,2)) == 0 or (N*sum_y2 - torch.pow(sum_y,2)) == 0:
+                pearson = 1
+            else:
+                pearson = (N*sum_xy - sum_x*sum_y)/(torch.sqrt((N*sum_x2 - torch.pow(sum_x,2))*(N*sum_y2 - torch.pow(sum_y,2))))
 
             #if (pearson>=0).data.cpu().numpy():    # torch.cuda.ByteTensor -->  numpy
             #    loss += 1 - pearson
