@@ -97,54 +97,54 @@ class PhysNet_padding_Encoder_Decoder_MAX(nn.Module):
 
         
     def forward(self, x):	    	# x [3, T, 128,128]
-        print(f"1: {torch.any(torch.isnan(x))}")
+        # print(f"1: {torch.any(torch.isnan(x))}")
         x_visual = x
         [batch,channel,length,width,height] = x.shape
           
         x = self.ConvBlock1(x)		     # x [3, T, 128,128]
-        print(f"2: {torch.any(torch.isnan(x))}")
+        # print(f"2: {torch.any(torch.isnan(x))}")
         x = self.MaxpoolSpa(x)       # x [16, T, 64,64]
-        print(f"3: {torch.any(torch.isnan(x))}")
+        # print(f"3: {torch.any(torch.isnan(x))}")
         
         x = self.ConvBlock2(x)		    # x [32, T, 64,64]
-        print(f"4: {torch.any(torch.isnan(x))}")
+        # print(f"4: {torch.any(torch.isnan(x))}")
         x_visual6464 = self.ConvBlock3(x)	    	# x [32, T, 64,64]
-        print(f"5: {torch.any(torch.isnan(x))}")
+        # print(f"5: {torch.any(torch.isnan(x))}")
         x = self.MaxpoolSpaTem(x_visual6464)      # x [32, T/2, 32,32]    Temporal halve
-        print(f"6: {torch.any(torch.isnan(x))}")
+        # print(f"6: {torch.any(torch.isnan(x))}")
         
         x = self.ConvBlock4(x)		    # x [64, T/2, 32,32]
-        print(f"7: {torch.any(torch.isnan(x))}")
+        # print(f"7: {torch.any(torch.isnan(x))}")
         x_visual3232 = self.ConvBlock5(x)	    	# x [64, T/2, 32,32]
-        print(f"8: {torch.any(torch.isnan(x))}")
+        # print(f"8: {torch.any(torch.isnan(x))}")
         x = self.MaxpoolSpaTem(x_visual3232)      # x [64, T/4, 16,16]
-        print(f"9: {torch.any(torch.isnan(x))}")
+        # print(f"9: {torch.any(torch.isnan(x))}")
         
 
         x = self.ConvBlock6(x)		    # x [64, T/4, 16,16]
-        print(f"10: {torch.any(torch.isnan(x))}")
+        # print(f"10: {torch.any(torch.isnan(x))}")
         x_visual1616 = self.ConvBlock7(x)	    	# x [64, T/4, 16,16]
-        print(f"11: {torch.any(torch.isnan(x))}")
+        # print(f"11: {torch.any(torch.isnan(x))}")
         x = self.MaxpoolSpa(x_visual1616)      # x [64, T/4, 8,8]
-        print(f"12: {torch.any(torch.isnan(x))}")
+        # print(f"12: {torch.any(torch.isnan(x))}")
 
         x = self.ConvBlock8(x)		    # x [64, T/4, 8, 8]
-        print(f"13: {torch.any(torch.isnan(x))}")
+        # print(f"13: {torch.any(torch.isnan(x))}")
         x = self.ConvBlock9(x)		    # x [64, T/4, 8, 8]
-        print(f"14: {torch.any(torch.isnan(x))}")
+        # print(f"14: {torch.any(torch.isnan(x))}")
         x = self.upsample(x)		    # x [64, T/2, 8, 8]
-        print(f"15: {torch.any(torch.isnan(x))}")
+        # print(f"15: {torch.any(torch.isnan(x))}")
         x = self.upsample2(x)		    # x [64, T, 8, 8]
-        print(f"16: {torch.any(torch.isnan(x))}")
+        # print(f"16: {torch.any(torch.isnan(x))}")
         
         
         x = self.poolspa(x)     # x [64, T, 1,1]    -->  groundtruth left and right - 7 
-        print(f"17: {torch.any(torch.isnan(x))}")
+        # print(f"17: {torch.any(torch.isnan(x))}")
         x = self.ConvBlock10(x)    # x [1, T, 1,1]
-        print(f"18: {torch.any(torch.isnan(x))}")
+        # print(f"18: {torch.any(torch.isnan(x))}")
         
         rPPG = x.view(-1,length)            
-        print(f"19: {torch.any(torch.isnan(x))}")
+        # print(f"19: {torch.any(torch.isnan(x))}")
         
 
         return rPPG, x_visual, x_visual3232, x_visual1616
